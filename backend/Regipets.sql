@@ -1,5 +1,5 @@
 CREATE DATABASE RegiPets;
-USE DATABASE RegiPets;
+USE regipets;
 
 CREATE TABLE `Veterinaria`(
     `VetID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -51,7 +51,7 @@ CREATE TABLE `Mascota`(
     `Color` VARCHAR(255) NOT NULL,
     `Sexo` VARCHAR(255) NOT NULL,
     `Peso` DECIMAL(8, 2) NOT NULL,
-    `Fecha Nacimiento` DATE NOT NULL,
+    `Fecha Nacimiento` DATETIME NOT NULL,
     `Status` BOOLEAN NOT NULL,
     `AreaID` INT UNSIGNED NULL
 );
@@ -247,21 +247,21 @@ INSERT INTO `Medico` (`MedID`, `Nombre`, `Apellido Pat`, `Apellido Mat`, `Direcc
 (6, 'Lic. Susana', 'Rojas', 'Perez', 'Circuito Asistencia 6, Col. Apoyos', 'susana.r@example.com', NULL, NULL, 'ROPS950606PQR', 1, 3, 3);
 
 INSERT INTO `Mascota` (`PetID`, `Nombre`, `Especie`, `Raza`, `Color`, `Sexo`, `Peso`, `Fecha Nacimiento`, `Status`, `AreaID`) VALUES
-(1, 'Fido', 1, 'Labrador', 'Dorado', 'Macho', 30.50, '2018-05-10', 1, NULL),
-(2, 'Pelusa', 2, 'Siames', 'Crema', 'Hembra', 4.20, '2019-01-15', 1, NULL),
-(3, 'Rocky', 1, 'Pastor Aleman', 'Negro y Fuego', 'Macho', 35.00, '2017-11-20', 1, NULL),
-(4, 'Mishi', 2, 'Gato Comun', 'Atigrado', 'Hembra', 3.80, '2020-03-01', 1, NULL),
-(5, 'Canela', 1, 'Chihuahua', 'Cafe Claro', 'Hembra', 5.50, '2021-07-05', 1, NULL),
-(6, 'Kiwi', 3, 'Periquito', 'Verde', 'Indefinido', 0.10, '2022-08-12', 1, NULL),
-(7, 'Bigotes', 4, 'Hamster', 'Cafe', 'Macho', 0.25, '2023-04-18', 1, NULL),
-(8, 'Luna', 1, 'Golden Retriever', 'Dorado', 'Hembra', 28.00, '2019-06-25', 1, NULL),
-(9, 'Coco', 2, 'Persa', 'Blanco', 'Macho', 5.00, '2020-09-01', 1, NULL),
-(10, 'Max', 1, 'Boxer', 'Atigrado', 'Macho', 32.00, '2017-02-14', 1, NULL),
-(11, 'Chloe', 2, 'Ragdoll', 'Crema y Gris', 'Hembra', 4.50, '2021-11-11', 1, NULL),
-(12, 'Lucas', 1, 'Poodle', 'Blanco', 'Macho', 8.00, '2022-01-20', 1, NULL),
-(13, 'Pipo', 3, 'Cacatua', 'Blanco', 'Indefinido', 0.50, '2023-05-01', 1, NULL),
-(14, 'Rex', 1, 'Rottweiler', 'Negro y Fuego', 'Macho', 40.00, '2016-03-08', 1, NULL),
-(15, 'Mia', 2, 'Maine Coon', 'Atigrado Gris', 'Hembra', 6.00, '2020-12-01', 1, NULL);
+(1, 'Fido', 1, 'Labrador', 'Dorado', 'Macho', 30.50, '2018-05-10 10:00:00', 1, NULL),
+(2, 'Pelusa', 2, 'Siames', 'Crema', 'Hembra', 4.20, '2019-01-15 10:00:00', 1, NULL),
+(3, 'Rocky', 1, 'Pastor Aleman', 'Negro y Fuego', 'Macho', 35.00, '2017-11-20 10:00:00', 1, NULL),
+(4, 'Mishi', 2, 'Gato Comun', 'Atigrado', 'Hembra', 3.80, '2020-03-01 10:00:00', 1, NULL),
+(5, 'Canela', 1, 'Chihuahua', 'Cafe Claro', 'Hembra', 5.50, '2021-07-05 10:00:00', 1, NULL),
+(6, 'Kiwi', 3, 'Periquito', 'Verde', 'Indefinido', 0.10, '2022-08-12 10:00:00', 1, NULL),
+(7, 'Bigotes', 4, 'Hamster', 'Cafe', 'Macho', 0.25, '2023-04-18 10:00:00', 1, NULL),
+(8, 'Luna', 1, 'Golden Retriever', 'Dorado', 'Hembra', 28.00, '2019-06-25 10:00:00', 1, NULL),
+(9, 'Coco', 2, 'Persa', 'Blanco', 'Macho', 5.00, '2020-09-01 10:00:00', 1, NULL),
+(10, 'Max', 1, 'Boxer', 'Atigrado', 'Macho', 32.00, '2017-02-14 10:00:00', 1, NULL),
+(11, 'Chloe', 2, 'Ragdoll', 'Crema y Gris', 'Hembra', 4.50, '2021-11-11 10:00:00', 1, NULL),
+(12, 'Lucas', 1, 'Poodle', 'Blanco', 'Macho', 8.00, '2022-01-20 10:00:00', 1, NULL),
+(13, 'Pipo', 3, 'Cacatua', 'Blanco', 'Indefinido', 0.50, '2023-05-01 10:00:00', 1, NULL),
+(14, 'Rex', 1, 'Rottweiler', 'Negro y Fuego', 'Macho', 40.00, '2016-03-08 10:00:00', 1, NULL),
+(15, 'Mia', 2, 'Maine Coon', 'Atigrado Gris', 'Hembra', 6.00, '2020-12-01 10:00:00', 1, NULL);
 
 INSERT INTO `Cliente_Mascota` (`Cliente`, `Mascota`) VALUES
 (1, 1),
@@ -341,3 +341,5 @@ INSERT INTO `Cita_Estudios` (`CitaID`, `EstID`, `Resultados`) VALUES
 (6, 1, 'Recuperacion normal, parametros sanguineos estables.'),
 (8, 5, 'Ultrasonido abdominal sin hallazgos relevantes.'),
 (10, 4, 'Parasitos intestinales detectados, tratamiento recomendado.');
+
+SELECT * FROM mascota

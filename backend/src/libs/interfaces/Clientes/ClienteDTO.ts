@@ -7,8 +7,8 @@ export const ClienteSchema = z.object({
     CURP: z.string().min(18).max(18),
     Direccion: z.string(),
     Correo: z.string().email(),
-    Telefono: z.string().optional().nullable(),
-    Celular: z.string().optional().nullable(),
+    Telefono: z.string().min(10).optional().nullable(),
+    Celular: z.string().min(10).optional().nullable(),
     Status: z.boolean().optional(),
     VetID: z.number().int().nonnegative().optional()
 });
