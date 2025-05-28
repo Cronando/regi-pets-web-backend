@@ -90,7 +90,7 @@ export class MascotaService {
             throw new Error("Especie no encontrado");
         if(!cliente)
             throw new Error("Cliente no encontrado");
-        if(exist)
+        if(exist.length)
             throw new Error("La mascota ya está registrada");
 
         return this.repository.crear(mascota);
