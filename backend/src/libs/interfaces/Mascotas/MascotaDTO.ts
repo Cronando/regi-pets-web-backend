@@ -8,7 +8,7 @@ export const MascotaSchema = z.object({
   Sexo: z.string().max(255),
   Peso: z.number().nonnegative().max(999999.99),
   FechaNacimiento: z.coerce.date(),
-  Status: z.boolean(),
+  Status: z.boolean().optional(),
   AreaID: z.number().int().nullable(),
   CliID: z.number().int().nonnegative()
 });

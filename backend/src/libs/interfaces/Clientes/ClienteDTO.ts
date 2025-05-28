@@ -9,7 +9,7 @@ export const ClienteSchema = z.object({
     Correo: z.string().email(),
     Telefono: z.string().optional().nullable(),
     Celular: z.string().optional().nullable(),
-    Status: z.boolean(),
+    Status: z.boolean().optional(),
     VetID: z.number().int().nonnegative().optional()
 });
 

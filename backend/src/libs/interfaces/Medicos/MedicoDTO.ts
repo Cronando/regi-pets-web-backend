@@ -9,7 +9,7 @@ export const MedicoSchema = z.object({
   Telefono: z.string().max(255).nullable(),
   Celular: z.string().max(255).nullable(),
   RFC: z.string().toUpperCase().min(12).max(13),
-  Status: z.boolean(),
+  Status: z.boolean().optional(),
   RolID: z.number().int(),
   VetID: z.number().int().optional()
 });

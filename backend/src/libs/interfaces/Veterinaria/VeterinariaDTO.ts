@@ -5,7 +5,7 @@ export const VeterinariaSchema = z.object({
   Domicilio: z.string().max(255),
   CodigoPostal: z.string().length(5),
   Contacto: z.string().max(255),
-  Status: z.boolean()
+  Status: z.boolean().optional()
 });
 
 export type VeterinariaDTO = z.infer<typeof VeterinariaSchema>;
