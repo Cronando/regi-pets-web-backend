@@ -4,4 +4,5 @@ export interface SessionDTO {
     Correo: string;
     Rol: string;
     VetID: number;
+    VetNombre: string;
 }

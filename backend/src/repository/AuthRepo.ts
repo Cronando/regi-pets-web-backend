@@ -10,7 +10,10 @@ export class AuthRepo implements IAuthRepo {
             where: { Correo: correo },
             include: { 
                 medico: {
-                    include: { rol: true }
+                    include: { 
+                        rol: true,
+                        veterinaria: true
+                    }
                 } 
             }
         });

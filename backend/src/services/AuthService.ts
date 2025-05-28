@@ -22,12 +22,14 @@ export class AuthService{
             throw new Error('La contraseña ingresada es incorrecta.');
         
         const { medico } = user;
+        
         return {
             MedID: medico.MedID,
             Name: medico.Nombre,
             Correo: user.Correo,
             Rol: medico.rol.Nombre,
-            VetID: medico.VetID
+            VetID: medico.VetID,
+            VetNombre: medico.veterinaria.Nombre
         };
     }
 
