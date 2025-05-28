@@ -1,7 +1,7 @@
 CREATE DATABASE RegiPets;
 USE regipets;
 
-CREATE TABLE `Veterinaria`(
+CREATE TABLE `veterinaria`(
     `VetID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Nombre` VARCHAR(255) NOT NULL,
     `Domicilio` VARCHAR(255) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE `Veterinaria`(
     `Contacto` VARCHAR(255) NOT NULL,
     `Status` BOOLEAN NOT NULL
 );
-CREATE TABLE `Cliente`(
+CREATE TABLE `cliente`(
     `CteID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Nombre` VARCHAR(255) NOT NULL,
     `Apellido Pat` VARCHAR(255) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE `Cliente`(
     `VetID` INT UNSIGNED NOT NULL
 );
 
-CREATE TABLE `Medico`(
+CREATE TABLE `medico`(
     `MedID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Nombre` VARCHAR(255) NOT NULL,
     `Apellido Pat` VARCHAR(255) NOT NULL,
@@ -38,12 +38,12 @@ CREATE TABLE `Medico`(
     `RolID` INT UNSIGNED NOT NULL
 );
 
-CREATE TABLE `Sesion`(
+CREATE TABLE `sesion`(
 	`Correo` VARCHAR(320) NOT NULL PRIMARY KEY,
 	`Clave` VARCHAR(64) NOT NULL
 );
 
-CREATE TABLE `Mascota`(
+CREATE TABLE `mascota`(
     `PetID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Nombre` VARCHAR(255) NOT NULL,
     `Especie` INT UNSIGNED NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE `Mascota`(
     `AreaID` INT UNSIGNED NULL
 );
 
-CREATE TABLE `Cita`(
+CREATE TABLE `cita`(
     `CitaID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Fecha` DATETIME NOT NULL,
     `Observaciones` TEXT NULL,
@@ -65,159 +65,162 @@ CREATE TABLE `Cita`(
     `Estado` ENUM('ASIGNADO', 'TERMINADO') NOT NULL
 );
 
-CREATE TABLE `Expediente`(
+CREATE TABLE `expediente`(
     `Folio` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `PetID` INT UNSIGNED NOT NULL,
     `FechaCitaProx` DATETIME NULL
 );
 
-CREATE TABLE `Rol`(
+CREATE TABLE `rol`(
     `RolID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Nombre` VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE `Especie`(
+CREATE TABLE `especie`(
     `EspID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Nombre` VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE `Area`(
+CREATE TABLE `area`(
     `AreaID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Nombre` VARCHAR(255) NOT NULL
 );
-CREATE TABLE `Cliente_Mascota` (
+CREATE TABLE `cliente_mascota` (
     `Cliente` INT UNSIGNED NOT NULL,
     `Mascota` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`Cliente`, `Mascota`)
 );
-CREATE TABLE `Cita_Tratamiento`(
+CREATE TABLE `cita_tratamiento`(
     `CitaID` INT UNSIGNED NOT NULL,
     `TxID` INT UNSIGNED NOT NULL,
     `Dosis` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`CitaID`, `TxID`)
 );
-CREATE TABLE `Cita_Estudios`(
+CREATE TABLE `cita_estudios`(
     `CitaID` INT UNSIGNED NOT NULL,
     `EstID` INT UNSIGNED NOT NULL,
     `Resultados` VARCHAR(255) NOT NULL,
     PRIMARY KEY (`CitaID`, `EstID`)
 );
-CREATE TABLE `Tratamiento`(
+CREATE TABLE `tratamiento`(
     `TxID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Nombre` VARCHAR(255) NOT NULL
 );
-CREATE TABLE `Estudio`(
+CREATE TABLE `estudio`(
     `EstID` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `Nombre` VARCHAR(255) NOT NULL
 );
 
 -- Cita → Expediente
-ALTER TABLE `Cita`
-ADD CONSTRAINT `cita_expediente_foreign` FOREIGN KEY (`Expediente`) REFERENCES `Expediente`(`Folio`)
+ALTER TABLE `cita`
+ADD CONSTRAINT `cita_expediente_foreign` FOREIGN KEY (`Expediente`) REFERENCES `expediente`(`Folio`)
 ON DELETE CASCADE;
 
 -- Cita → Medico
-ALTER TABLE `Cita`
-ADD CONSTRAINT `cita_medico_foreign` FOREIGN KEY (`Medico`) REFERENCES `Medico`(`MedID`)
+ALTER TABLE `cita`
+ADD CONSTRAINT `cita_medico_foreign` FOREIGN KEY (`Medico`) REFERENCES `medico`(`MedID`)
 ON DELETE CASCADE;
 
 -- Cita_Estudios → Cita
-ALTER TABLE `Cita_Estudios`
-ADD CONSTRAINT `cita_estudios_citaid_foreign` FOREIGN KEY (`CitaID`) REFERENCES `Cita`(`CitaID`)
+ALTER TABLE `cita_estudios`
+ADD CONSTRAINT `cita_estudios_citaid_foreign` FOREIGN KEY (`CitaID`) REFERENCES `cita`(`CitaID`)
 ON DELETE CASCADE;
 
 -- Cita_Estudios → Estudio
-ALTER TABLE `Cita_Estudios`
-ADD CONSTRAINT `cita_estudios_estid_foreign` FOREIGN KEY (`EstID`) REFERENCES `Estudio`(`EstID`)
+ALTER TABLE `cita_estudios`
+ADD CONSTRAINT `cita_estudios_estid_foreign` FOREIGN KEY (`EstID`) REFERENCES `estudio`(`EstID`)
 ON DELETE CASCADE;
 
 -- Cita_Tratamiento → Cita
-ALTER TABLE `Cita_Tratamiento`
-ADD CONSTRAINT `cita_tratamiento_citaid_foreign` FOREIGN KEY (`CitaID`) REFERENCES `Cita`(`CitaID`)
+ALTER TABLE `cita_tratamiento`
+ADD CONSTRAINT `cita_tratamiento_citaid_foreign` FOREIGN KEY (`CitaID`) REFERENCES `cita`(`CitaID`)
 ON DELETE CASCADE;
 
 -- Cita_Tratamiento → Tratamiento
-ALTER TABLE `Cita_Tratamiento`
-ADD CONSTRAINT `cita_tratamiento_txid_foreign` FOREIGN KEY (`TxID`) REFERENCES `Tratamiento`(`TxID`)
+ALTER TABLE `cita_tratamiento`
+ADD CONSTRAINT `cita_tratamiento_txid_foreign` FOREIGN KEY (`TxID`) REFERENCES `tratamiento`(`TxID`)
 ON DELETE CASCADE;
 
 -- Cliente → Veterinaria
-ALTER TABLE `Cliente`
-ADD CONSTRAINT `cliente_vetid_foreign` FOREIGN KEY (`VetID`) REFERENCES `Veterinaria`(`VetID`)
+ALTER TABLE `cliente`
+ADD CONSTRAINT `cliente_vetid_foreign` FOREIGN KEY (`VetID`) REFERENCES `veterinaria`(`VetID`)
 ON DELETE CASCADE;
 
 -- Cliente_Mascota → Cliente
-ALTER TABLE `Cliente_Mascota`
-ADD CONSTRAINT `cliente_mascota_cliente_foreign` FOREIGN KEY (`Cliente`) REFERENCES `Cliente`(`CteID`)
+ALTER TABLE `cliente_mascota`
+ADD CONSTRAINT `cliente_mascota_cliente_foreign` FOREIGN KEY (`Cliente`) REFERENCES `cliente`(`CteID`)
 ON DELETE CASCADE;
 
 -- Cliente_Mascota → Mascota
-ALTER TABLE `Cliente_Mascota`
-ADD CONSTRAINT `cliente_mascota_mascota_foreign` FOREIGN KEY (`Mascota`) REFERENCES `Mascota`(`PetID`)
+ALTER TABLE `cliente_mascota`
+ADD CONSTRAINT `cliente_mascota_mascota_foreign` FOREIGN KEY (`Mascota`) REFERENCES `mascota`(`PetID`)
 ON DELETE CASCADE;
 
 -- Expediente → Mascota
-ALTER TABLE `Expediente`
-ADD CONSTRAINT `expediente_petid_foreign` FOREIGN KEY (`PetID`) REFERENCES `Mascota`(`PetID`)
+ALTER TABLE `expediente`
+ADD CONSTRAINT `expediente_petid_foreign` FOREIGN KEY (`PetID`) REFERENCES `mascota`(`PetID`)
 ON DELETE CASCADE;
 
+ALTER TABLE `expediente`
+ADD UNIQUE (`PetID`);
+
 -- Medico → Veterinaria
-ALTER TABLE `Medico`
-ADD CONSTRAINT `medico_vetid_foreign` FOREIGN KEY (`VetID`) REFERENCES `Veterinaria`(`VetID`)
+ALTER TABLE `medico`
+ADD CONSTRAINT `medico_vetid_foreign` FOREIGN KEY (`VetID`) REFERENCES `veterinaria`(`VetID`)
 ON DELETE CASCADE;
 
 -- Medico → Rol
-ALTER TABLE `Medico`
-ADD CONSTRAINT `medico_rolid_foreign` FOREIGN KEY (`RolID`) REFERENCES `Rol`(`RolID`)
+ALTER TABLE `medico`
+ADD CONSTRAINT `medico_rolid_foreign` FOREIGN KEY (`RolID`) REFERENCES `rol`(`RolID`)
 ON DELETE CASCADE;
 
 -- Mascota → Especie
-ALTER TABLE `Mascota`
-ADD CONSTRAINT `mascota_especie_foreign` FOREIGN KEY (`Especie`) REFERENCES `Especie`(`EspID`)
+ALTER TABLE `mascota`
+ADD CONSTRAINT `mascota_especie_foreign` FOREIGN KEY (`Especie`) REFERENCES `especie`(`EspID`)
 ON DELETE CASCADE;
 
 -- Mascota → Área
-ALTER TABLE `Mascota`
-ADD CONSTRAINT `mascota_areaid_foreign` FOREIGN KEY (`AreaID`) REFERENCES `Area`(`AreaID`)
+ALTER TABLE `mascota`
+ADD CONSTRAINT `mascota_areaid_foreign` FOREIGN KEY (`AreaID`) REFERENCES `area`(`AreaID`)
 ON DELETE CASCADE;
 
-ALTER TABLE `Medico`
+ALTER TABLE `medico`
 ADD CONSTRAINT `medico_correo_foreign` FOREIGN KEY (`Correo`)
-REFERENCES `Sesion`(`Correo`) ON DELETE CASCADE;
+REFERENCES `sesion`(`Correo`) ON DELETE CASCADE;
 
-ALTER TABLE `Medico`
+ALTER TABLE `medico`
 ADD UNIQUE (`Correo`);
 
-ALTER TABLE `Cliente`
+ALTER TABLE `cliente`
 ADD CONSTRAINT `UQ_CURP` UNIQUE (`CURP`),
 ADD CONSTRAINT `UQ_Correo` UNIQUE (`Correo`);
 
-INSERT INTO `Veterinaria` (`VetID`, `Nombre`, `Domicilio`, `Codigo Postal`, `Contacto`, `Status`) VALUES
+INSERT INTO `veterinaria` (`VetID`, `Nombre`, `Domicilio`, `Codigo Postal`, `Contacto`, `Status`) VALUES
 (1, 'Veterinaria Central', 'Av. Siempre Viva 123, Col. Centro', '80010', '+526671234567', 1),
 (2, 'Clinica Veterinaria Sur', 'Calle Luna 45, Col. Jardines', '80020', '+526677654321', 1),
 (3, 'Pet Care Hospital', 'Blvd. Sol 789, Col. Residencial', '80030', '+526679876543', 1);
 
-INSERT INTO Rol(RolID, Nombre)
+INSERT INTO rol(RolID, Nombre)
 VALUES 
 (1, 'Recepcionista'),
 (2, 'Veterinario'),
 (3, 'Jefe');
 
-INSERT INTO `Especie` (`EspID`, `Nombre`) VALUES
+INSERT INTO `especie` (`EspID`, `Nombre`) VALUES
 (1, 'Perro'),
 (2, 'Gato'),
 (3, 'Ave'),
 (4, 'Roedor'),
 (5, 'Reptil');
 
-INSERT INTO `Area` (`AreaID`, `Nombre`) VALUES
+INSERT INTO `area` (`AreaID`, `Nombre`) VALUES
 (1, 'Consulta General'),
 (2, 'Cirugia'),
 (3, 'Hospitalizacion'),
 (4, 'Laboratorio y Diagnostico'),
 (5, 'Farmacia');
 
-INSERT INTO `Cliente` (`CteID`, `Nombre`, `Apellido Pat`, `Apellido Mat`, `CURP`, `Direccion`, `Correo`, `Telefono`, `Celular`, `Status`, `VetID`) VALUES
+INSERT INTO `cliente` (`CteID`, `Nombre`, `Apellido Pat`, `Apellido Mat`, `CURP`, `Direccion`, `Correo`, `Telefono`, `Celular`, `Status`, `VetID`) VALUES
 (1, 'Juan', 'Perez', 'Gomez', 'PEPJ800101HDFRZN01', 'Calle Falsa 123, Col. Obrero', 'juan.perez@example.com', '+526671100000', '+526671112233', 1, 1),
 (2, 'Maria', 'Rodriguez', 'Lopez', 'ROLM820202MDFLPR02', 'Av. Principal 456, Col. Cumbres', 'maria.r@example.com', '+526672223344', '+526672200000', 1, 1),
 (3, 'Carlos', 'Garcia', 'Martinez', 'GAMC850303HDFRLR03', 'Blvd. Secundario 789, Col. Linda Vista', 'carlos.g@example.com', '+526673334455', '+526674445566', 1, 2),
@@ -230,7 +233,7 @@ INSERT INTO `Cliente` (`CteID`, `Nombre`, `Apellido Pat`, `Apellido Mat`, `CURP`
 (10, 'Fernanda', 'Ruiz', 'Flores', 'RUFF951010MDFLRS10', 'Calle de las Rosas 707, Col. Jardines', 'fernanda.r@example.com', '+526670001233', '+526670001344', 1, 1);
 
 
-INSERT INTO `Sesion` (`Correo`, `Clave`) VALUES
+INSERT INTO `sesion` (`Correo`, `Clave`) VALUES
 ('roberto.s@example.com', 'U2FsdGVkX1+kTKgShZtAKPke01LUIiQUBJMbjpMjvaE='),
 ('andrea.m@example.com', 'U2FsdGVkX1+kTKgShZtAKPke01LUIiQUBJMbjpMjvaE='),
 ('jorge.c@example.com', 'U2FsdGVkX1+kTKgShZtAKPke01LUIiQUBJMbjpMjvaE='),
@@ -238,7 +241,7 @@ INSERT INTO `Sesion` (`Correo`, `Clave`) VALUES
 ('eduardo.n@example.com', 'U2FsdGVkX1+kTKgShZtAKPke01LUIiQUBJMbjpMjvaE='),
 ('susana.r@example.com', 'U2FsdGVkX1+kTKgShZtAKPke01LUIiQUBJMbjpMjvaE=');
 
-INSERT INTO `Medico` (`MedID`, `Nombre`, `Apellido Pat`, `Apellido Mat`, `Direccion`, `Correo`, `Telefono`, `Celular`, `RFC`, `Status`, `VetID`, `RolID`) VALUES
+INSERT INTO `medico` (`MedID`, `Nombre`, `Apellido Pat`, `Apellido Mat`, `Direccion`, `Correo`, `Telefono`, `Celular`, `RFC`, `Status`, `VetID`, `RolID`) VALUES
 (1, 'Dr. Roberto', 'Silva', 'Vega', 'Calle del Medico 1, Col. Doctores', 'roberto.s@example.com', NULL, '+526671213141', 'SIVR800101ABC', 1, 1, 1),
 (2, 'Dra. Andrea', 'Mendoza', 'Reyes', 'Av. Salud 2, Col. Hospitales', 'andrea.m@example.com', '+526672324252', NULL, 'MERA850202DEF', 1, 1, 1),
 (3, 'Dr. Jorge', 'Castro', 'Vargas', 'Blvd. Bienestar 3, Col. Enfermeros', 'jorge.c@example.com', '+526673435363', '+526674546474', 'CAVJ900303GHI', 1, 2, 1),
@@ -246,7 +249,7 @@ INSERT INTO `Medico` (`MedID`, `Nombre`, `Apellido Pat`, `Apellido Mat`, `Direcc
 (5, 'Dr. Eduardo', 'Navarro', 'Jimenez', 'Andador Sanitario 5, Col. Clinicos', 'eduardo.n@example.com', '+526675657585', '+526676768696', 'NAJE880505MNO', 1, 3, 1),
 (6, 'Lic. Susana', 'Rojas', 'Perez', 'Circuito Asistencia 6, Col. Apoyos', 'susana.r@example.com', NULL, NULL, 'ROPS950606PQR', 1, 3, 3);
 
-INSERT INTO `Mascota` (`PetID`, `Nombre`, `Especie`, `Raza`, `Color`, `Sexo`, `Peso`, `Fecha Nacimiento`, `Status`, `AreaID`) VALUES
+INSERT INTO `mascota` (`PetID`, `Nombre`, `Especie`, `Raza`, `Color`, `Sexo`, `Peso`, `Fecha Nacimiento`, `Status`, `AreaID`) VALUES
 (1, 'Fido', 1, 'Labrador', 'Dorado', 'Macho', 30.50, '2018-05-10 10:00:00', 1, NULL),
 (2, 'Pelusa', 2, 'Siames', 'Crema', 'Hembra', 4.20, '2019-01-15 10:00:00', 1, NULL),
 (3, 'Rocky', 1, 'Pastor Aleman', 'Negro y Fuego', 'Macho', 35.00, '2017-11-20 10:00:00', 1, NULL),
@@ -263,7 +266,7 @@ INSERT INTO `Mascota` (`PetID`, `Nombre`, `Especie`, `Raza`, `Color`, `Sexo`, `P
 (14, 'Rex', 1, 'Rottweiler', 'Negro y Fuego', 'Macho', 40.00, '2016-03-08 10:00:00', 1, NULL),
 (15, 'Mia', 2, 'Maine Coon', 'Atigrado Gris', 'Hembra', 6.00, '2020-12-01 10:00:00', 1, NULL);
 
-INSERT INTO `Cliente_Mascota` (`Cliente`, `Mascota`) VALUES
+INSERT INTO `cliente_mascota` (`Cliente`, `Mascota`) VALUES
 (1, 1),
 (1, 2),
 (2, 3),
@@ -280,7 +283,7 @@ INSERT INTO `Cliente_Mascota` (`Cliente`, `Mascota`) VALUES
 (10, 14),
 (10, 15);
 
-INSERT INTO `Tratamiento` (`TxID`, `Nombre`) VALUES
+INSERT INTO `tratamiento` (`TxID`, `Nombre`) VALUES
 (1, 'Vacunacion Anual (Perro)'),
 (2, 'Desparasitacion Interna'),
 (3, 'Desparasitacion Externa'),
@@ -291,27 +294,30 @@ INSERT INTO `Tratamiento` (`TxID`, `Nombre`) VALUES
 (8, 'Antibiotico Oral'),
 (9, 'Antiinflamatorio');
 
-INSERT INTO `Estudio` (`EstID`, `Nombre`) VALUES
+INSERT INTO `estudio` (`EstID`, `Nombre`) VALUES
 (1, 'Analisis de Sangre Completo'),
 (2, 'Radiografia'),
 (3, 'Analisis de Orina'),
 (4, 'Coprologico'),
 (5, 'Ultrasonido');
 
-INSERT INTO `Expediente` (`Folio`, `PetID`, `FechaCitaProx`) VALUES
+INSERT INTO `expediente` (`Folio`, `PetID`, `FechaCitaProx`) VALUES
 (1, 1, '2024-06-15 10:00:00'),
 (2, 2, '2024-07-20 16:00:00'),
 (3, 3, '2024-08-10 11:00:00'),
 (4, 4, '2024-06-01 16:00:00'),
 (5, 5, '2024-09-05 15:00:00'),
-(6, 8, '2024-07-01 10:00:00'),
-(7, 9, '2024-08-25 11:00:00'),
-(8, 10, '2024-06-20 16:00:00'),
-(9, 11, '2024-09-10 10:00:00'),
-(10, 12, '2024-07-05 10:00:00'),
-(11, 14, '2024-08-01 11:00:00'),
-(12, 15, '2024-06-05 11:00:00');
-INSERT INTO `Cita` (`CitaID`, `Fecha`, `Observaciones`, `Medico`, `Expediente`, `Estado`) VALUES
+(6, 6, '2024-07-01 10:00:00'),
+(7, 7, '2024-08-25 11:00:00'),
+(8, 8, '2024-06-20 16:00:00'),
+(9, 9, '2024-09-10 10:00:00'),
+(10, 10, '2024-07-05 10:00:00'),
+(11, 11, '2024-08-01 11:00:00'),
+(12, 12, '2024-06-05 11:00:00'),
+(13, 13, '2024-06-05 11:00:00'),
+(14, 14, '2024-06-05 11:00:00'),
+(15, 15, '2024-06-05 11:00:00');
+INSERT INTO `cita` (`CitaID`, `Fecha`, `Observaciones`, `Medico`, `Expediente`, `Estado`) VALUES
 (1, '2024-05-10 10:00:00', 'Revision general y vacunacion anual.', 1, 1, 'ASIGNADO'),
 (2, '2024-05-10 11:00:00', 'Consulta por estornudos.', 1, 2, 'ASIGNADO'),
 (3, '2024-05-11 09:30:00', 'Consulta por cojera.', 3, 3, 'ASIGNADO'),
@@ -323,7 +329,7 @@ INSERT INTO `Cita` (`CitaID`, `Fecha`, `Observaciones`, `Medico`, `Expediente`, 
 (9, '2024-05-14 11:30:00', 'Revision de peso y dieta.', 1, 9, 'ASIGNADO'),
 (10, '2024-05-15 12:00:00', 'Consulta general.', 2, 10, 'TERMINADO');
 
-INSERT INTO `Cita_Tratamiento` (`CitaID`, `TxID`, `Dosis`) VALUES
+INSERT INTO `cita_tratamiento` (`CitaID`, `TxID`, `Dosis`) VALUES
 (1, 1, '1 dosis inyectable'),
 (2, 2, 'Tableta unica'),
 (3, 8, '5 ml cada 8 horas por 7 dias'),
@@ -335,11 +341,11 @@ INSERT INTO `Cita_Tratamiento` (`CitaID`, `TxID`, `Dosis`) VALUES
 (9, 9, 'Media tableta diaria'),
 (10, 4, 'Segun necesidad');
 
-INSERT INTO `Cita_Estudios` (`CitaID`, `EstID`, `Resultados`) VALUES
+INSERT INTO `cita_estudios` (`CitaID`, `EstID`, `Resultados`) VALUES
 (2, 1, 'Leucocitos ligeramente elevados, sugiere infeccion.'),
 (3, 2, 'Fractura menor en radio izquierdo confirmada.'),
 (6, 1, 'Recuperacion normal, parametros sanguineos estables.'),
 (8, 5, 'Ultrasonido abdominal sin hallazgos relevantes.'),
 (10, 4, 'Parasitos intestinales detectados, tratamiento recomendado.');
 
-SELECT * FROM mascota
+SELECT * FROM medico
