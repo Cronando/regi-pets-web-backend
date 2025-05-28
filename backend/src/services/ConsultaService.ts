@@ -37,12 +37,6 @@ export class ConsultaService {
         if(consulta.Observaciones)
             update.Observaciones = consulta.Observaciones;
 
-        if(consulta.Estudios?.length)
-            update.cita_estudios = await this.ExistenciaEstudio(consulta.Estudios, citaID);
-
-        if(consulta.Tratamientos?.length)
-            update.cita_tratamiento = await this.ExistenciaTratamiento(consulta.Tratamientos, citaID);
-
         return this.repository.actualizar(update, citaID, vetID);  
     }
 
