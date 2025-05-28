@@ -69,6 +69,7 @@ export class ClienteController {
             Nombre,
             Apellido_Pat,
             Apellido_Mat,
+            CURP,
             Direccion,
             Correo,
             Telefono,
@@ -82,6 +83,7 @@ export class ClienteController {
             .setApellidoPat(Apellido_Pat)
             .setApellidoMat(Apellido_Mat)
             .setDireccion(Direccion)
+            .setCURP(CURP)
             .setCorreo(Correo)
             .setTelefono(Telefono)
             .setCelular(Celular)

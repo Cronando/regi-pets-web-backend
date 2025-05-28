@@ -18,6 +18,11 @@ export class ClienteBuilder {
         return this;
     }
 
+    setCURP(curp: string): this{
+        this.cliente.CURP = curp;
+        return this;
+    }
+
     setDireccion(direccion: string): this {
         this.cliente.Direccion = direccion;
         return this;

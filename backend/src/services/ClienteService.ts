@@ -66,9 +66,10 @@ export class ClienteService {
                 ]
             })
         ]);
+
         if(!veterinaria)
             throw new Error("Veterinaria no encontrado");
-        if(exist)
+        if(exist.length)
             throw new Error("El cliente ya está registrado");
 
         return this.repository.crear(cliente);
