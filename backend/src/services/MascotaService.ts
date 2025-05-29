@@ -73,7 +73,7 @@ export class MascotaService {
     }
 
     async CrearMascota(mascota: MascotaDTO, vetID: number){
-        if(!mascota.AreaID){
+        if(mascota.AreaID){
             const area = await this.area_repo.obtener(mascota.AreaID)
             if(!area)
                 throw new Error("Area no encontrado");
