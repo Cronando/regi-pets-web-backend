@@ -73,8 +73,13 @@ export class MascotaService {
     }
 
     async CrearMascota(mascota: MascotaDTO, vetID: number){
-        const [area, especie, cliente, exist] = await Promise.all([
-            this.area_repo.obtener(mascota.AreaID),
+        if(!mascota.AreaID){
+            const area = await this.area_repo.obtener(mascota.AreaID)
+            if(!area)
+                throw new Error("Area no encontrado");
+        }
+            
+        const [especie, cliente, exist] = await Promise.all([
             this.especie_repo.obtener(mascota.Especie),
             this.cliente_repo.obtener(mascota.CliID, vetID),
             this.repository.buscar({ AND: [
@@ -84,8 +89,6 @@ export class MascotaService {
             })
         ]);
 
-        if(!area)
-            throw new Error("Area no encontrado");
         if(!especie)
             throw new Error("Especie no encontrado");
         if(!cliente)
